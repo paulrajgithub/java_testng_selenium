@@ -1,0 +1,45 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="SeleniumJava101_Assignment_Suite" parallel="methods" thread-count="4"> <listeners>
+    <listener class-name="org.testng.reporters.EmailableReporter2"/>
+    <listener class-name="org.testng.reporters.FailedReporter"/>
+</listeners>
+
+    <test name="Chrome Test on Windows 10">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="version" value="128.0"/>
+        <parameter name="platform" value="Windows 10"/>
+        <classes>
+            <class name="com.lambdatest.Scenario_Test"/>
+        </classes>
+    </test>
+
+    <test name="Edge Test on macOS Ventura">
+        <parameter name="browser" value="MicrosoftEdge"/>
+        <parameter name="version" value="127.0"/>
+        <parameter name="platform" value="macOS Ventura"/>
+        <classes>
+            <class name="com.lambdatest.Scenario_Test"/>
+        </classes>
+    </test>
+
+    <test name="Firefox Test on Windows 11">
+        <parameter name="browser" value="Firefox"/>
+        <parameter name="version" value="130.0"/>
+        <parameter name="platform" value="Windows 11"/>
+        <classes>
+            <class name="com.lambdatest.Scenario_Test"/>
+        </classes>
+    </test>
+
+    <test name="IE Test on Windows 10">
+        <parameter name="browser" value="internet explorer"/>
+        <parameter name="version" value="11.0"/>
+        <parameter name="platform" value="Windows 7"/>
+        <parameter name="project" value="IE Testing"></parameter>
+        <classes>
+            <class name="com.lambdatest.Scenario_Test"/>
+        </classes>
+    </test>
+
+</suite>
