@@ -38,8 +38,8 @@ public class Scenario_Test {
         capabilities.setCapability("browserName", browser);
         capabilities.setCapability("browserVersion", version);
         Map<String, Object> ltOptions = new HashMap<>();
-        ltOptions.put("user", System.getenv("LT_USERNAME"));
-        ltOptions.put("accessKey", System.getenv("LT_ACCESS_KEY"));
+        ltOptions.put("user", "paulrajmail");
+        ltOptions.put("accessKey", "LT_xozkF4UN07H5UNJ9cHsni7TvSwPmTEBbnTXMOZPsPICgsLi");
         ltOptions.put("build", "Selenium 4");
 //        ltOptions.put("name", this.getClass().getName());
         ltOptions.put("platformName", platform);
