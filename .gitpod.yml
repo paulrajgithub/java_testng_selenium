@@ -1,0 +1,25 @@
+# .gitpod.yml
+image: gitpod/workspace-java-11 # Or a newer Java version like gitpod/workspace-java-17
+
+tasks:
+  - name: Setup Dependencies
+    init: |
+      sudo apt-get update && sudo apt-get install -y maven # Ensure Maven is installed
+      mvn clean install -DskipTests # Build the project and download dependencies
+    command: |
+      echo "Gitpod setup complete. You can now run tests."
+
+ports:
+  - port: 8080
+    onOpen: ignore # Or a port you might expose if running a web server
+
+vscode:
+  extensions:
+    - redhat.java # Java Language Support
+    - vscjava.vscode-maven # Maven extension
+    - mhutchie.git-graph # Git Graph for better Git visualization
+
+# Environment variables (sensitive information should be set securely via Gitpod's dashboard)
+# env:
+#   LT_USERNAME: your_lambdatest_username
+#   LT_ACCESS_KEY: your_lambdatest_access_keys
