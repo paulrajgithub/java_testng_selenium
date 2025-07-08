@@ -5,22 +5,27 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.ScatteringByteChannel;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Scenario_Test {
     public static String hubURL = "https://hub.lambdatest.com/wd/hub";
@@ -29,7 +34,7 @@ public class Scenario_Test {
     private final Duration TIMEOUT = Duration.ofSeconds(20); // As per assignment notes
 
 
-    @BeforeTest
+    @BeforeMethod
     @Parameters({"browser", "version", "platform"})
     public void setup(String browser, String version, String platform) throws MalformedURLException {
 
@@ -38,44 +43,29 @@ public class Scenario_Test {
         capabilities.setCapability("browserName", browser);
         capabilities.setCapability("browserVersion", version);
         Map<String, Object> ltOptions = new HashMap<>();
-        ltOptions.put("user", System.getenv("LT_USERNAME"));
-        ltOptions.put("accessKey", System.getenv("LT_ACCESS_KEY"));
-        ltOptions.put("build", "Selenium 4");
-//        ltOptions.put("name", this.getClass().getName());
+        ltOptions.put("user", "paulrajmail");
+        ltOptions.put("accessKey", "LT_xozkF4UN07H5UNJ9cHsni7TvSwPmTEBbnTXMOZPsPICgsLi");
+        ltOptions.put("name",  "Scenario: " + Thread.currentThread().getId() + " - " + browser + " " + version + " " + platform);
         ltOptions.put("platformName", platform);
-        ltOptions.put("selenium_version", "4.23.0");
-        capabilities.setCapability("build", "SeleniumJava101_Build_1");
+//        ltOptions.put("selenium_version", "4.23.0");
+        capabilities.setCapability("build", "SeleniumJava101_Build_2");
         capabilities.setCapability("project", "SeleniumJava101_Assignment");
-        capabilities.setCapability("name", "Test Scenario Execution"); // This will be the test name in LambdaTest
-        capabilities.setCapability("console", true); // Enable console logs
-        capabilities.setCapability("network", true); // Enable network logs
-        capabilities.setCapability("video", true);   // Enable video recording
-        capabilities.setCapability("visual", true);  // Enable visual regression (if applicable)
 
         // For parallelism at method level, ensure the test name is unique
         capabilities.setCapability("testName", "Scenario: " + Thread.currentThread().getId() + " - " + browser + " " + version + " " + platform);
 
-        ltOptions.put("seCdp", true);
+//        ltOptions.put("seCdp", true);
 
 
+        ltOptions.put("selenium_version", "3.141.59");
 
 
-        if(browser.equals("internet explorer")){
-//            ltOptions.put("selenium_version", "3.141.59");
-            ltOptions.put("project", "IE11 Legacy Testing");
-            ltOptions.put("build", "IE11-Windows7-Build");
-            ltOptions.put("name", "Test on IE11 - Win7");
-            ltOptions.put("w3c", false);
-            ltOptions.put("ie.compatibility", "11001");
-            browserCap.setCapability("LT:Options", ltOptions);
-            driver = new RemoteWebDriver(new URL(hubURL), browserCap);
+        ltOptions.put("w3c", false);
 
-        }
-        else {
             capabilities.setCapability("LT:Options", ltOptions);
             driver = new RemoteWebDriver(new URL(hubURL), capabilities);
             System.out.println(driver);
-        }
+
     }
 
 @Test
@@ -83,7 +73,8 @@ public class Scenario_Test {
         System.out.println("Running Test Scenario 1 on " + driver.getClass().getSimpleName() + "...");
 
         driver.get(BASE_URL);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    WebDriverWait wait = new WebDriverWait(driver, 10); // 10 seconds timeout
 
         WebElement simpleFormDemoLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Simple Form Demo")));
         simpleFormDemoLink.click();
@@ -119,7 +110,7 @@ public class Scenario_Test {
         System.out.println("Running Test Scenario 2 on " + driver.getClass().getSimpleName() + "...");
 
         driver.get(BASE_URL);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, 10); // 10 seconds timeout
 
         WebElement simpleFormDemoLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Drag & Drop Sliders")));
         simpleFormDemoLink.click();
@@ -133,7 +124,7 @@ public class Scenario_Test {
 //        js.executeScript("arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input'))", slider, "35");
 
         slider.click();
-        for (;;) {
+        for (int i = 0; i< 100 ; i++) {
             if (Integer.parseInt(wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rangeSuccess"))).getText()) < targetValue) {
                 slider.sendKeys(Keys.ARROW_RIGHT);
             } else slider.sendKeys(Keys.ARROW_LEFT);
@@ -170,7 +161,7 @@ public class Scenario_Test {
         System.out.println("Running Test Scenario 3 on " + driver.getClass().getSimpleName() + "...");
 
         driver.get(BASE_URL);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    WebDriverWait wait = new WebDriverWait(driver, 10); // 10 seconds timeout
 
         WebElement inputFormSubmitLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Input Form Submit")));
         inputFormSubmitLink.click();
@@ -218,7 +209,7 @@ public class Scenario_Test {
     }
 
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
         try {
             driver.quit();
@@ -241,7 +232,6 @@ public class Scenario_Test {
         Scenario_Test test = new Scenario_Test();
         test.setup("Chrome", "128.0","Windows 10");
         test.testScenario1_SimpleFormDemo();
-
         test.tearDown();
     }
 }

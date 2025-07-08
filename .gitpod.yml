@@ -1,11 +1,12 @@
 # .gitpod.yml
-image: gitpod/workspace-java-11 # Or a newer Java version like gitpod/workspace-java-17
+image: gitpod/workspace-java-17 # Or a newer Java version like gitpod/workspace-java-17
 
 tasks:
   - name: Setup Dependencies
     init: |
       sudo apt-get update && sudo apt-get install -y maven # Ensure Maven is installed
       mvn clean install -DskipTests # Build the project and download dependencies
+
     command: |
       echo "Gitpod setup complete. You can now run tests."
 

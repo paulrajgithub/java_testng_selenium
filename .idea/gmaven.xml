@@ -10,6 +10,7 @@
           </DistributionSettings>
         </option>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="localRepositoryPath" value="$USER_HOME$/.m2/repository" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
